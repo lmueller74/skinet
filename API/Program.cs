@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Data;
+using Core.Interfaces;
 
 internal class Program
 {
-    private static void Main(string[] args)
+    private static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,8 @@ internal class Program
         builder.Services.AddDbContext<StoreContext>(opt => {
             opt.UseSqlite(builder.Configuration.GetConnectionString("defaultConnection"));
         });
+        
+        builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
         builder.Services.AddSwaggerGen();
 
@@ -50,7 +53,25 @@ internal class Program
         // .WithName("GetWeatherForecast")
         // .WithOpenApi();
 
+        using var scope = app.Services.CreateScope();
+        
+        var services = scope.ServiceProvider;
+        var context = services.GetRequiredService<StoreContext>();
+        var logger  = services.GetRequiredService<ILogger<Program>>();
+
+        try
+        {
+            await context.Database.MigrateAsync();
+            await StoreContextSeed.SeedAsync(context);
+        }
+        catch (Exception ex)
+        {
+            logger.LogError(ex, "error during migration");
+            throw;
+        }
+
         app.Run();
+
     }
 }
 
