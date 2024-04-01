@@ -43,9 +43,12 @@ namespace Infrastructure.Data
             .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public Task<IReadOnlyList<Product>> GetProductsAsync()
+        public async Task<IReadOnlyList<Product>> GetProductsAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Products
+            .Include(p => p.ProductBrand)
+            .Include(p=> p.ProductType)
+            .ToListAsync();
         }
 
     }
