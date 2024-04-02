@@ -19,7 +19,7 @@ namespace API.Helperrs
             {
                 return _config["ApiUrl"] + source.PictureUrl;
             }
-            return null;
+            return String.Empty;
         }
     }
 }
