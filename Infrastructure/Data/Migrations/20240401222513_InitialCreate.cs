@@ -14,32 +14,33 @@ namespace Infrastructure.Data.Migrations
                 name: "ProductBrands",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Name = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductBrands", x => x.id);
+                    table.PrimaryKey("PK_ProductBrands", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "ProductTypes",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductTypes", x => x.id);
+                    table.PrimaryKey("PK_ProductTypes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Products",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "INTEGER", nullable: false)
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "TEXT", maxLength: 180, nullable: false),
@@ -50,18 +51,18 @@ namespace Infrastructure.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Products", x => x.id);
+                    table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Products_ProductBrands_ProductBrandId",
                         column: x => x.ProductBrandId,
                         principalTable: "ProductBrands",
-                        principalColumn: "id",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Products_ProductTypes_ProductTypeId",
                         column: x => x.ProductTypeId,
                         principalTable: "ProductTypes",
-                        principalColumn: "id",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 

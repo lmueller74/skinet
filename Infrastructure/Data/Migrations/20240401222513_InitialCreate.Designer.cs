@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Data.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20240329233604_InitialCreate")]
+    [Migration("20240401222513_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -21,7 +21,7 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Core.Entities.Product", b =>
                 {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -48,7 +48,7 @@ namespace Infrastructure.Data.Migrations
                     b.Property<int>("ProductTypeId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
 
                     b.HasIndex("ProductBrandId");
 
@@ -59,18 +59,7 @@ namespace Infrastructure.Data.Migrations
 
             modelBuilder.Entity("Core.Entities.ProductBrand", b =>
                 {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("id");
-
-                    b.ToTable("ProductBrands");
-                });
-
-            modelBuilder.Entity("Core.Entities.ProductType", b =>
-                {
-                    b.Property<int>("id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
@@ -78,7 +67,22 @@ namespace Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.HasKey("id");
+                    b.HasKey("Id");
+
+                    b.ToTable("ProductBrands");
+                });
+
+            modelBuilder.Entity("Core.Entities.ProductType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
 
                     b.ToTable("ProductTypes");
                 });
