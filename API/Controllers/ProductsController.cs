@@ -6,6 +6,7 @@ using Core.Interfaces;
 using Core.Specifications;
 using API.Data;
 using AutoMapper;
+using API.Errors;
 
 namespace API.Controllers
 {
@@ -21,7 +22,7 @@ namespace API.Controllers
             IGenericRepository<Product> productTypeRepo, IGenericRepository<Product> productBrandRepo,
             IMapper mapper)
         {
-            
+
             _productBrandRepo = productBrandRepo;
             _productTypeRepo = productTypeRepo;
             _productRepo = productRepo;
@@ -48,6 +49,7 @@ namespace API.Controllers
             var spec = new ProductsWithTypesAndBrandsSpecification();
 
             var p = await _productRepo.ListAsync(spec);
+
             return Ok(_mapper
                 .Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDto>>(p));
         }
@@ -56,8 +58,10 @@ namespace API.Controllers
         public async Task<ActionResult<ProductToReturnDto>> GetProducts(int id)
         {
             var spec = new ProductsWithTypesAndBrandsSpecification(id);
-            var product = await _productRepo.GetEntityWithSpec(spec);
-            return _mapper.Map<Product, ProductToReturnDto>(product);
+            var p = await _productRepo.GetEntityWithSpec(spec);
+
+            if (p == null) return NotFound(new ApiResponse(404));
+            return _mapper.Map<Product, ProductToReturnDto>(p);
         }
     }
 }
