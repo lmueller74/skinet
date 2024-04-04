@@ -3,7 +3,7 @@ using API.Data;
 using AutoMapper;
 using Core.Entities;
 
-namespace API.Helperrs
+namespace API.Helpers
 {
     public class ProductUrlResolver : IValueResolver<Product, ProductToReturnDto, string>
     {

@@ -2,7 +2,7 @@ using Core.Entities;
 using AutoMapper;
 using API.Data;
 
-namespace API.Helperrs
+namespace API.Helpers
 {
     public class MappingProfiles : Profile
     {
